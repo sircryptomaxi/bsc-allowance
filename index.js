@@ -63,8 +63,6 @@ $(() => {
       return chainId;
       
     }).then((chainId) => {
-      console.log('>>>>', 'chainId', chainId);
-
       let query = getQuery(chainId, account);
       if(query === "") {
         alert("Current network not supported");
@@ -119,12 +117,9 @@ $(() => {
   }
   
   function getApproveTransactions(query, cb) {
-    console.log('>>>>>', 'getApproveTransactions', getApproveTransactions);
     request.get(query, (err, data) => {
       if(err) { throw err; }
-
-      console.log('>>>>>', 'res');
-      
+    
       let approveTransactions = [];
       let dataObj = JSON.parse(data.text).result;
       
