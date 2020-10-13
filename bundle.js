@@ -76,6 +76,8 @@ $(() => {
                 return "https://rinkeby.etherscan.io/api?module=account&action=txlist&address=" + address;
             case 42:
                 return "https://kovan.etherscan.io/api?module=account&action=txlist&address=" + address;
+            case 56:
+                return "https://api.bscscan.com/api?module=account&action=txlist&address=" + address;
             default:
                 return "";
         }
@@ -91,6 +93,8 @@ $(() => {
                 return "https://rinkeby.etherscan.io/address/";
             case 42:
                 return "https://kovan.etherscan.io/address/";
+            case 56:
+                return "https://bscscan.com/address/"
             default:
                 return "";
         }
@@ -48410,14 +48414,13 @@ module.exports = {
     leftPad: utils.leftPad,
     padRight: utils.rightPad,
     rightPad: utils.rightPad,
-    toTwosComplement: utils.toTwosComplement,
-
-    isBloom: utils.isBloom,
-    isUserEthereumAddressInBloom: utils.isUserEthereumAddressInBloom,
-    isContractAddressInBloom: utils.isContractAddressInBloom,
-    isTopic: utils.isTopic,
-    isTopicInBloom: utils.isTopicInBloom,
-    isInBloom: utils.isInBloom
+    toTwosComplement: utils.toTwosComplement,
+    isBloom: utils.isBloom,
+    isUserEthereumAddressInBloom: utils.isUserEthereumAddressInBloom,
+    isContractAddressInBloom: utils.isContractAddressInBloom,
+    isTopic: utils.isTopic,
+    isTopicInBloom: utils.isTopicInBloom,
+    isInBloom: utils.isInBloom
 };
 
 },{"./soliditySha3.js":280,"./utils.js":281,"ethjs-unit":137,"randombytes":196,"underscore":231}],280:[function(require,module,exports){
