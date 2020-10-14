@@ -102,3 +102,76 @@ body {
   font-weight: 700;
   font-size: 1.2rem;
 }
+
+
+
+
+.plains {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.plain-left {
+  position: absolute;
+  bottom: -40rem;
+  left: -30rem;
+  width: 50rem;
+  height: 50rem;
+  
+  border-radius: 50%;
+  background-color: #78B388;
+}
+
+.plain-center-bg {
+  position: absolute;
+  bottom: -23rem;
+  left: -25vw;
+  width: 100vw;
+  height: 30rem;
+  
+  border-radius: 50%;
+  background-color: #5A8F69;
+}
+
+.plain-center-fg {
+  position: absolute;
+  bottom: -23rem;
+  right: -15vw;
+  width: 70vw;
+  height: 30rem;
+  
+  border-radius: 50%;
+  background-color: #78B388;
+}
+
+.plain-right {
+  position: absolute;
+  bottom: -43rem;
+  right: -40rem;
+  width: 60rem;
+  height: 60rem;
+  
+  border-radius: 50%;
+  background-color: #5A8F69;
+}
+
+.cow {
+  position: absolute;
+  width: 5rem;
+}
+
+@media only screen and (min-width: 769px) {
+  .hero {
+    margin: -4rem auto 0;
+  }
+
+  .plains {
+    display: block;
+  }
+}

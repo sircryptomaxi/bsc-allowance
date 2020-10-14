@@ -1,6 +1,7 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 let Web3 = require('web3');
 let request = require('superagent');
+
 const approvalHash = "0x095ea7b3";
 const unlimitedAllowance = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 const approvalABI = [
@@ -42,7 +43,26 @@ const injected = () => {
   return false;
 }
 
+const spawnCows = () => {
+  console.log('spawnCows');
+  const cows = $('.cows');
+  let n = Math.ceil(Math.random() * 3 ) + 3;
+
+  const arr = [];
+  for(let i = 0; i < n; i++) {
+    console.log('cow');
+    const r = 100 / n;
+    const x = (i + Math.random() * 0.5) * r;
+    const y = Math.ceil(Math.random() * 30) / 10 + 0.5;
+    const w = Math.round(Math.random() * 5) + 3;
+    const d = Math.random() < 0.5 ? -1 : 1;
+    arr.push(`<img class='cow' src='/img/beefy.svg' style='left: ${x}vw; bottom: ${y}rem; width: ${w}rem; transform: scaleX(${d}); z-index: ${Math.ceil(y)}' />`);
+  }
+  cows.innerHTML = arr.join('');
+}
+
 $(() => {
+  spawnCows();
   if (!injected()) {
     alert("Please install MetaMask to use this dApp!");
   }
