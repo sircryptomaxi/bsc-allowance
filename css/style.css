@@ -242,5 +242,18 @@ h2 {
 }
 
 .grid-action span.unlimited {
-  color: #f00;
+  color: #BF4E30;
+}
+
+.grid-action button {
+  border: none;
+  background: none;
+}
+
+.grid-action button.limited {
+  border-color: #000;
+}
+
+.grid-action button.unlimited {
+  border-color: #BF4E30;
 }

@@ -179,9 +179,9 @@ $(() => {
     for(let index in txs) {
       parentElement.append(`
       <div class="grid-container">
-      <div class="grid-address"><a href=${explorerURL + txs[index].contract}>${txs[index].contract}</a></div>
-      <div class="grid-address"><a href=${explorerURL + txs[index].approved}>${txs[index].approved}</a></div>
-      <div class="grid-action"><span class="un${txs[index].allowance}">${txs[index].allowance}</span><button class="${txs[index].allowance}" id="revoke${index}"> Revoke</button></div>
+      <div class="grid-address"><a href=${explorerURL + txs[index].contract} target="_blank" rel="noopener noreferrer">${txs[index].contract}</a></div>
+      <div class="grid-address"><a href=${explorerURL + txs[index].approved} target="_blank" rel="noopener noreferrer">${txs[index].approved}</a></div>
+      <div class="grid-action"><span class="${txs[index].allowance}">${txs[index].allowance}</span><button class="${txs[index].allowance}" id="revoke${index}"> Revoke</button></div>
       </div>
       `);
       setRevokeButtonClick(txs[index], "#revoke" + index, account);
