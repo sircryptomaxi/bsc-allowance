@@ -1,5 +1,6 @@
 let Web3 = require('web3');
 let request = require('superagent');
+
 const approvalHash = "0x095ea7b3";
 const unlimitedAllowance = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 const approvalABI = [
