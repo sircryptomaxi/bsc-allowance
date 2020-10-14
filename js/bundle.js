@@ -61,7 +61,7 @@ const spawnCows = () => {
 
 $(() => {
   spawnCows();
-  
+
   if (!injected()) {
     alert("Please install MetaMask to use this dApp!");
   }
@@ -179,9 +179,9 @@ $(() => {
     for(let index in txs) {
       parentElement.append(`
       <div class="grid-container">
-      <div class="grid-items"><a href=${etherscanURL + txs[index].contract}>${txs[index].contract}</a></div>
-      <div class="grid-items"><a href=${etherscanURL + txs[index].approved}>${txs[index].approved}</a></div>
-      <div class="grid-items">${txs[index].allowance}<button class="btn btn-primary" id="revoke${index}"> Revoke</button></div>
+      <div class="grid-address"><a href=${etherscanURL + txs[index].contract}>${txs[index].contract}</a></div>
+      <div class="grid-address"><a href=${etherscanURL + txs[index].approved}>${txs[index].approved}</a></div>
+      <div class="grid-action">${txs[index].allowance}<button class="btn btn-primary" id="revoke${index}"> Revoke</button></div>
       </div>
       `);
       setRevokeButtonClick(txs[index], "#revoke" + index, account);
