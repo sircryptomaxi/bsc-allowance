@@ -21,7 +21,7 @@
   <meta link rel="apple-touch-icon" href="https://beefy.finance/img/beefy.png">
   <meta name="theme-color" content="#F9F3EB">
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -33,16 +33,29 @@
     <div class="cows"></div>
   </div>
   
-  <header>
-    <h1>BSC Allowance</h1>
-    <h2>Find & revoke all the addresses that can spend your tokens</h2>
-  </header>
-  
-  <div id="results">
-    <div class="grid-container">
-      <div class="grid-item">Contract Address</div>
-      <div class="grid-item">Approved Address</div>
-      <div class="grid-item">Allowance</div>
+  <div class="container">
+    <div class="nav unselectable">
+      <div class="nav-left">
+        <img class="nav-logo" src="/img/beefy.svg" />
+        <a class="nav-item" href="https://beefy.finance" target="_blank">beefy.finance</a>
+      </div>
+      <div class="nav-right">
+        <a class="nav-item nav-txt" href="https://gov.beefy.finance" target="_blank">Earn $BIFI</a> 
+        <a class="nav-item nav-btn" href="https://app.beefy.finance" target="_blank">Vaults are live!</a> 
+      </div>
+    </div>
+    
+    <header>
+      <h1>BSC Allowance</h1>
+      <h2>Find & revoke all the addresses that can spend your tokens</h2>
+    </header>
+    
+    <div id="results">
+      <div class="grid-container">
+        <div class="grid-item">Contract Address</div>
+        <div class="grid-item">Approved Address</div>
+        <div class="grid-item">Allowance</div>
+      </div>
     </div>
   </div>
   

@@ -37,7 +37,8 @@ body {
 
 .container {
   position: relative;
-  width: 90%;
+  width: 60rem;
+  max-width: 90%;
   margin-left: auto;
   margin-right: auto;
   z-index: 100;
@@ -103,9 +104,6 @@ body {
   font-size: 1.2rem;
 }
 
-
-
-
 .plains {
   position: fixed;
   display: none;
@@ -114,7 +112,7 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  z-index: 0;
+  z-index: -1;
 }
 
 .plain-left {
@@ -152,7 +150,7 @@ body {
 
 .plain-right {
   position: absolute;
-  bottom: -43rem;
+  bottom: -46rem;
   right: -40rem;
   width: 60rem;
   height: 60rem;
@@ -174,4 +172,17 @@ body {
   .plains {
     display: block;
   }
+}
+
+header {
+  margin: 4rem 0 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.2rem;
 }

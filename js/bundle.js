@@ -44,13 +44,11 @@ const injected = () => {
 }
 
 const spawnCows = () => {
-  console.log('spawnCows');
   const cows = $('.cows');
   let n = Math.ceil(Math.random() * 3 ) + 3;
 
   const arr = [];
   for(let i = 0; i < n; i++) {
-    console.log('cow');
     const r = 100 / n;
     const x = (i + Math.random() * 0.5) * r;
     const y = Math.ceil(Math.random() * 30) / 10 + 0.5;
@@ -58,11 +56,12 @@ const spawnCows = () => {
     const d = Math.random() < 0.5 ? -1 : 1;
     arr.push(`<img class='cow' src='/img/beefy.svg' style='left: ${x}vw; bottom: ${y}rem; width: ${w}rem; transform: scaleX(${d}); z-index: ${Math.ceil(y)}' />`);
   }
-  cows.innerHTML = arr.join('');
+  cows.html(arr.join(''));
 }
 
 $(() => {
   spawnCows();
+  
   if (!injected()) {
     alert("Please install MetaMask to use this dApp!");
   }
