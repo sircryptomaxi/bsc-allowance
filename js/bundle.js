@@ -89,7 +89,7 @@ $(() => {
       } else {
         getApproveTransactions(query, (txs) => {
           // display the logic
-          console.log(txs);
+          // console.log(txs);
           buildResults(chainId, txs, account);
         });
       }
@@ -154,7 +154,7 @@ $(() => {
           if(allowance.includes(unlimitedAllowance)) {
             approveObj.allowance = "unlimited";
           } else {
-            approveObj.allowance = "some";
+            approveObj.allowance = "limited";
           }
 
           if(parseInt(allowance, 16) !== 0) {
@@ -181,7 +181,7 @@ $(() => {
       <div class="grid-container">
       <div class="grid-address"><a href=${explorerURL + txs[index].contract}>${txs[index].contract}</a></div>
       <div class="grid-address"><a href=${explorerURL + txs[index].approved}>${txs[index].approved}</a></div>
-      <div class="grid-action">${txs[index].allowance}<button class="btn btn-primary" id="revoke${index}"> Revoke</button></div>
+      <div class="grid-action"><span class="un${txs[index].allowance}">${txs[index].allowance}</span><button class="${txs[index].allowance}" id="revoke${index}"> Revoke</button></div>
       </div>
       `);
       setRevokeButtonClick(txs[index], "#revoke" + index, account);

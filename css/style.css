@@ -227,4 +227,19 @@ h2 {
 
 .grid-action {
   width: 20%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.grid-action span {
+  text-transform: capitalize;
+  font-weight: 700;
+}
+
+.grid-action span.limited {
+  color: #000;
+}
+
+.grid-action span.unlimited {
+  color: #f00;
 }
