@@ -211,11 +211,16 @@ h2 {
   font-weight: 700;
 }
 
+.grid-container.grid-header .grid-address {
+  padding-top: 0 !important;
+}
+
 .grid-address {
   width: 30%;
   overflow: hidden;
   text-overflow: ellipsis;
   padding-right: 2rem;
+  padding-top: .6rem;
 }
 
 .grid-address a {
@@ -235,6 +240,7 @@ h2 {
 .grid-action span {
   text-transform: capitalize;
   font-weight: 700;
+  padding-top: .6rem;
 }
 
 .grid-action span.limited {
@@ -266,6 +272,15 @@ h2 {
   color: #fff;
 }
 
+.grid-action button:hover {
+  border-color: #5A8F69;
+  background-color: #5A8F69;
+  color: #fff;
+}
+
+.grid-action button:active {
+  background-color: #3F6449;
+}
 
 @media only screen and (min-width: 769px) {
   .grid-address {
