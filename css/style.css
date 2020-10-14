@@ -207,10 +207,22 @@ h2 {
   position: sticky;
   top: 6rem;
   background-color: #F9F3EB;
+  border-bottom: 1px solid #DED9D5;
 }
 
 .grid-address {
   width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 2rem;
+}
+
+.grid-address a {
+  text-decoration: none;
+}
+
+.grid-address a:hover {
+  text-decoration: underline;
 }
 
 .grid-action {
