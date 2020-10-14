@@ -173,13 +173,13 @@ $(() => {
   }
   
   function buildResults(chainId, txs, account) {
-    let etherscanURL = getExplorerPage(chainId);
+    let explorerURL = getExplorerPage(chainId);
     let parentElement = $('#results');
     for(let index in txs) {
       parentElement.append(`
       <div class="grid-container">
-      <div class="grid-address"><a href=${etherscanURL + txs[index].contract}>${txs[index].contract}</a></div>
-      <div class="grid-address"><a href=${etherscanURL + txs[index].approved}>${txs[index].approved}</a></div>
+      <div class="grid-address"><a href=${explorerURL + txs[index].contract}>${txs[index].contract}</a></div>
+      <div class="grid-address"><a href=${explorerURL + txs[index].approved}>${txs[index].approved}</a></div>
       <div class="grid-action">${txs[index].allowance}<button class="btn btn-primary" id="revoke${index}"> Revoke</button></div>
       </div>
       `);
