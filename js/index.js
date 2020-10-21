@@ -121,9 +121,7 @@ function onReady() {
         }
         
       }).then((chainId) => {
-
-
-        let query = getQuery(BSC_CHAINID, account);
+        let query = getQuery(chainId, account);
         if(query === "") {
           alert(`No allowances found in chain(${chainId}) for ${account}`);
 
