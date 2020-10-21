@@ -52,23 +52,30 @@ const providerOptions = {
   },
 };
 
-const inject = async () => {  
-  try {
-    console.log('web3modal injection');
-    web3Modal = new Web3Modal({
-      cacheProvider: false,
-      providerOptions,
-      disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
-    });
-  
-    console.log("Web3Modal instance is", web3Modal);
-    provider = await web3Modal.connect();
-    window.web3 = new Web3(provider);
-    console.log('web3', window.web3);
-
+const inject = async () => {
+  if (window.web3) {
     return true;
-  } catch (err) {
-    console.error(err);
+  
+  } else if (window.ethereum) {    
+    window.web3 = new Web3(window.ethereum);   
+    window.ethereum.enable();    
+    return true;
+  
+  } else {  
+    try {
+      web3Modal = new Web3Modal({
+        cacheProvider: false,
+        providerOptions,
+        disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
+      });
+    
+      provider = await web3Modal.connect();
+      window.web3 = new Web3(provider);
+      
+      return true;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return false;
