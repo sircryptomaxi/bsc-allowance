@@ -123,7 +123,8 @@ function onReady() {
       }).then((chainId) => {
         let query = getQuery(chainId, account);
         if(query === "") {
-          alert("Current network not supported");
+          alert(`No allowances found in chain(${chainId}) for ${account}`);
+
         } else {
           getApproveTransactions(query, (txs) => {
             // display the logic
