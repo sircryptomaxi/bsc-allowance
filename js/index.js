@@ -32,44 +32,13 @@ const approvalABI = [
   }
 ];
 
-const BSC_MAINNET_CHAINID = 56;
-const BSC_TESTNET_CHAINID = 97;
-
-// -- Web3Modal
-const Web3Modal = window.Web3Modal.default;
-const WalletConnectProvider = window.WalletConnectProvider.default;
-
-let web3Modal
-let provider;
-
-const providerOptions = {
-  walletconnect: {
-    package: WalletConnectProvider,
-    options: {
-      rpc: {
-        56: 'https://bsc-dataseed.binance.org/',
-        97: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
-      },
-    },
-  },
-};
-
 const inject = async () => {
   try {
-    web3Modal = new Web3Modal({
-      cacheProvider: false,
-      providerOptions,
-      disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
-    });
-  
-    provider = await web3Modal.connect();
-    window.web3 = new Web3(provider);
-    
+    window.web3 = new Web3(Web3.givenProvider || "https://bsc-dataseed.binance.org/");
     return true;
   } catch (err) {
     console.error(err);
   }
-
   return false;
 }
 
@@ -114,11 +83,7 @@ function onReady() {
     
     function init(account) {
       web3.eth.getChainId().then((chainId) => {
-        if (chainId !== BSC_MAINNET_CHAINID && chainID !== BSC_TESTNET_CHAINID) {
-          return BSC_MAINNET_CHAINID;
-        } else {
-          return chainId;
-        }
+        return chainId;
         
       }).then((chainId) => {
         let query = getQuery(chainId, account);
