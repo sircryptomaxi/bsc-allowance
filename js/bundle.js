@@ -53,10 +53,7 @@ const providerOptions = {
 };
 
 const inject = async () => {
-  if (window.web3) {
-    return true;
-  
-  } else if (window.ethereum) {    
+  if (window.ethereum) {    
     window.web3 = new Web3(window.ethereum);   
     window.ethereum.enable();    
     return true;
@@ -97,152 +94,154 @@ const spawnCows = () => {
   cows.html(arr.join(''));
 }
 
-(async () => {
-  spawnCows();
-  
-  const injected = await inject();
-  if (!injected) {
-    alert("web3 object not found");
-    return;
-  }
+function onReady() {
+  (async () => {
+    spawnCows();
+    
+    const injected = await inject();
+    if (!injected) {
+      alert("web3 object not found");
+      return;
+    }
 
-  web3.eth.requestAccounts().then((accounts) => {
-    init(accounts[0]);
-  }).catch((err) => {
-    console.log(err);
-    // some web3 objects don't have requestAccounts
-    ethereum.enable().then((accounts) => {
+    web3.eth.requestAccounts().then((accounts) => {
       init(accounts[0]);
     }).catch((err) => {
-      alert(e + err);
-    });
-  });
-  
-  function init(account) {
-    web3.eth.getChainId().then((chainId) => {
-      return chainId;
-      
-    }).then((chainId) => {
-      let query = getQuery(chainId, account);
-      if(query === "") {
-        alert("Current network not supported");
-      } else {
-        getApproveTransactions(query, (txs) => {
-          // display the logic
-          // console.log(txs);
-          buildResults(chainId, txs, account);
-        });
-      }
-    }).catch((err) => {
-      throw err;
-    });
-  }
-  
-  function getQuery(chainId, address) {
-    switch (chainId) {
-      case 1:
-        return "https://api.etherscan.io/api?module=account&action=txlist&address=" + address;
-      case 3:
-        return "https://ropsten.etherscan.io/api?module=account&action=txlist&address=" + address;
-      case 4:
-        return "https://rinkeby.etherscan.io/api?module=account&action=txlist&address=" + address;
-      case 42:
-        return "https://kovan.etherscan.io/api?module=account&action=txlist&address=" + address;
-      case 56:
-        return "https://api.bscscan.com/api?module=account&action=txlist&address=" + address;
-      case 97:
-        return "https://api.testnet.bscscan.com/api?module=account&action=txlist&address=" + address;
-      default:
-        return "";
-    }
-  }
-  
-  function getExplorerPage(chainId) {
-    switch (chainId) {
-      case 1:
-        return "https://etherscan.io/address/";
-      case 3:
-        return "https://ropsten.etherscan.io/address/";
-      case 4:
-        return "https://rinkeby.etherscan.io/address/";
-      case 42:
-        return "https://kovan.etherscan.io/address/";
-      case 56:
-        return "https://bscscan.com/address/";
-      case 97:
-        return "https://testnet.bscscan.com/address/";
-      default:
-        return "";
-    }
-  }
-  
-  function getApproveTransactions(query, cb) {
-    request.get(query, (err, data) => {
-      if(err) { throw err; }
-    
-      let approveTransactions = [];
-      let dataObj = JSON.parse(data.text).result;
-      
-      for(let tx of dataObj) {
-      
-        if(tx.input.includes(approvalHash)) {
-          let approveObj = {};
-          approveObj.contract = web3.utils.toChecksumAddress(tx.to);
-          approveObj.approved = web3.utils.toChecksumAddress("0x" + tx.input.substring(34, 74));
-          
-          let allowance = tx.input.substring(74);
-          if(allowance.includes(unlimitedAllowance)) {
-            approveObj.allowance = "unlimited";
-          } else {
-            approveObj.allowance = "limited";
-          }
-
-          if(parseInt(allowance, 16) !== 0) {
-            approveTransactions.push(approveObj);
-          } else {
-            // TODO clean up
-            // Remove all previous additions of this approval transaction as it is now cleared up
-            approveTransactions = approveTransactions.filter((val) => {
-              return !(val.approved === approveObj.approved && val.contract === val.contract);
-            });
-          }
-          
-        }
-      }
-      cb(approveTransactions);
-    });
-  }
-  
-  function buildResults(chainId, txs, account) {
-    let explorerURL = getExplorerPage(chainId);
-    let parentElement = $('#results');
-    for(let index in txs) {
-      parentElement.append(`
-      <div class="grid-container">
-      <div class="grid-address"><a href=${explorerURL + txs[index].contract} target="_blank" rel="noopener noreferrer">${txs[index].contract}</a></div>
-      <div class="grid-address"><a href=${explorerURL + txs[index].approved} target="_blank" rel="noopener noreferrer">${txs[index].approved}</a></div>
-      <div class="grid-action"><span class="${txs[index].allowance}">${txs[index].allowance}</span><button class="${txs[index].allowance}" id="revoke${index}"> Revoke</button></div>
-      </div>
-      `);
-      setRevokeButtonClick(txs[index], "#revoke" + index, account);
-    }
-  }
-  
-  function setRevokeButtonClick(tx, id, account) {
-    $(id).click(() => {
-      // set the contract and make an approve transaction with a zero allowance
-      let contract = new web3.eth.Contract(approvalABI, tx.contract);
-      contract.methods.approve(tx.approved, 0).send({ from: account }).then((receipt) => {
-        console.log("revoked: " + JSON.stringify(receipt));
+      console.log(err);
+      // some web3 objects don't have requestAccounts
+      ethereum.enable().then((accounts) => {
+        init(accounts[0]);
       }).catch((err) => {
-        console.log("failed: " + JSON.stringify(err));
+        alert(e + err);
       });
     });
-  }
-  
-})();
+    
+    function init(account) {
+      web3.eth.getChainId().then((chainId) => {
+        return chainId;
+        
+      }).then((chainId) => {
+        let query = getQuery(chainId, account);
+        if(query === "") {
+          alert("Current network not supported");
+        } else {
+          getApproveTransactions(query, (txs) => {
+            // display the logic
+            // console.log(txs);
+            buildResults(chainId, txs, account);
+          });
+        }
+      }).catch((err) => {
+        throw err;
+      });
+    }
+    
+    function getQuery(chainId, address) {
+      switch (chainId) {
+        case 1:
+          return "https://api.etherscan.io/api?module=account&action=txlist&address=" + address;
+        case 3:
+          return "https://ropsten.etherscan.io/api?module=account&action=txlist&address=" + address;
+        case 4:
+          return "https://rinkeby.etherscan.io/api?module=account&action=txlist&address=" + address;
+        case 42:
+          return "https://kovan.etherscan.io/api?module=account&action=txlist&address=" + address;
+        case 56:
+          return "https://api.bscscan.com/api?module=account&action=txlist&address=" + address;
+        case 97:
+          return "https://api.testnet.bscscan.com/api?module=account&action=txlist&address=" + address;
+        default:
+          return "";
+      }
+    }
+    
+    function getExplorerPage(chainId) {
+      switch (chainId) {
+        case 1:
+          return "https://etherscan.io/address/";
+        case 3:
+          return "https://ropsten.etherscan.io/address/";
+        case 4:
+          return "https://rinkeby.etherscan.io/address/";
+        case 42:
+          return "https://kovan.etherscan.io/address/";
+        case 56:
+          return "https://bscscan.com/address/";
+        case 97:
+          return "https://testnet.bscscan.com/address/";
+        default:
+          return "";
+      }
+    }
+    
+    function getApproveTransactions(query, cb) {
+      request.get(query, (err, data) => {
+        if(err) { throw err; }
+      
+        let approveTransactions = [];
+        let dataObj = JSON.parse(data.text).result;
+        
+        for(let tx of dataObj) {
+        
+          if(tx.input.includes(approvalHash)) {
+            let approveObj = {};
+            approveObj.contract = web3.utils.toChecksumAddress(tx.to);
+            approveObj.approved = web3.utils.toChecksumAddress("0x" + tx.input.substring(34, 74));
+            
+            let allowance = tx.input.substring(74);
+            if(allowance.includes(unlimitedAllowance)) {
+              approveObj.allowance = "unlimited";
+            } else {
+              approveObj.allowance = "limited";
+            }
 
+            if(parseInt(allowance, 16) !== 0) {
+              approveTransactions.push(approveObj);
+            } else {
+              // TODO clean up
+              // Remove all previous additions of this approval transaction as it is now cleared up
+              approveTransactions = approveTransactions.filter((val) => {
+                return !(val.approved === approveObj.approved && val.contract === val.contract);
+              });
+            }
+            
+          }
+        }
+        cb(approveTransactions);
+      });
+    }
+    
+    function buildResults(chainId, txs, account) {
+      let explorerURL = getExplorerPage(chainId);
+      let parentElement = $('#results');
+      for(let index in txs) {
+        parentElement.append(`
+        <div class="grid-container">
+        <div class="grid-address"><a href=${explorerURL + txs[index].contract} target="_blank" rel="noopener noreferrer">${txs[index].contract}</a></div>
+        <div class="grid-address"><a href=${explorerURL + txs[index].approved} target="_blank" rel="noopener noreferrer">${txs[index].approved}</a></div>
+        <div class="grid-action"><span class="${txs[index].allowance}">${txs[index].allowance}</span><button class="${txs[index].allowance}" id="revoke${index}"> Revoke</button></div>
+        </div>
+        `);
+        setRevokeButtonClick(txs[index], "#revoke" + index, account);
+      }
+    }
+    
+    function setRevokeButtonClick(tx, id, account) {
+      $(id).click(() => {
+        // set the contract and make an approve transaction with a zero allowance
+        let contract = new web3.eth.Contract(approvalABI, tx.contract);
+        contract.methods.approve(tx.approved, 0).send({ from: account }).then((receipt) => {
+          console.log("revoked: " + JSON.stringify(receipt));
+        }).catch((err) => {
+          console.log("failed: " + JSON.stringify(err));
+        });
+      });
+    }
+    
+  })();
+}
 
+$(onReady);
 },{"superagent":339,"web3":413}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
