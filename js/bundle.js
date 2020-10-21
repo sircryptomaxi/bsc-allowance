@@ -33,6 +33,9 @@ const approvalABI = [
   }
 ];
 
+const BSC_MAINNET_CHAINID = 56;
+const BSC_TESTNET_CHAINID = 97;
+
 // -- Web3Modal
 const Web3Modal = window.Web3Modal.default;
 const WalletConnectProvider = window.WalletConnectProvider.default;
@@ -53,26 +56,19 @@ const providerOptions = {
 };
 
 const inject = async () => {
-  if (window.ethereum) {    
-    window.web3 = new Web3(window.ethereum);   
-    window.ethereum.enable();    
-    return true;
+  try {
+    web3Modal = new Web3Modal({
+      cacheProvider: false,
+      providerOptions,
+      disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
+    });
   
-  } else {  
-    try {
-      web3Modal = new Web3Modal({
-        cacheProvider: false,
-        providerOptions,
-        disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
-      });
+    provider = await web3Modal.connect();
+    window.web3 = new Web3(provider);
     
-      provider = await web3Modal.connect();
-      window.web3 = new Web3(provider);
-      
-      return true;
-    } catch (err) {
-      console.error(err);
-    }
+    return true;
+  } catch (err) {
+    console.error(err);
   }
 
   return false;
@@ -106,6 +102,7 @@ function onReady() {
 
     web3.eth.requestAccounts().then((accounts) => {
       init(accounts[0]);
+
     }).catch((err) => {
       console.log(err);
       // some web3 objects don't have requestAccounts
@@ -118,10 +115,16 @@ function onReady() {
     
     function init(account) {
       web3.eth.getChainId().then((chainId) => {
-        return chainId;
+        if (chainId !== BSC_MAINNET_CHAINID && chainID !== BSC_TESTNET_CHAINID) {
+          return BSC_MAINNET_CHAINID;
+        } else {
+          return chainId;
+        }
         
       }).then((chainId) => {
-        let query = getQuery(chainId, account);
+
+
+        let query = getQuery(BSC_CHAINID, account);
         if(query === "") {
           alert(`No allowances found in chain(${chainId}) for ${account}`);
 
