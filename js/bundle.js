@@ -36,11 +36,9 @@ const approvalABI = [
 // -- Web3Modal
 const Web3Modal = window.Web3Modal.default;
 const WalletConnectProvider = window.WalletConnectProvider.default;
-const EvmChains = window.EvmChains;
 
 let web3Modal
 let provider;
-let selectedAccount;
 
 const providerOptions = {
   walletconnect: {
