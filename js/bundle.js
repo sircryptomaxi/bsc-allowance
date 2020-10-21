@@ -33,13 +33,46 @@ const approvalABI = [
   }
 ];
 
-const injected = () => {  
-  console.log('injecting');
-  if (window.ethereum) {    
-    window.web3 = new Web3(window.ethereum);   
-    window.ethereum.enable();    
-    return true;  
-  }  
+// -- Web3Modal
+const Web3Modal = window.Web3Modal.default;
+const WalletConnectProvider = window.WalletConnectProvider.default;
+const EvmChains = window.EvmChains;
+
+let web3Modal
+let provider;
+let selectedAccount;
+
+const providerOptions = {
+  walletconnect: {
+    package: WalletConnectProvider,
+    options: {
+      rpc: {
+        56: 'https://bsc-dataseed.binance.org/',
+        97: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+      },
+    },
+  },
+};
+
+const inject = async () => {  
+  try {
+    console.log('web3modal injection');
+    web3Modal = new Web3Modal({
+      cacheProvider: false,
+      providerOptions,
+      disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
+    });
+  
+    console.log("Web3Modal instance is", web3Modal);
+    provider = await web3Modal.connect();
+    window.web3 = new Web3(provider);
+    console.log('web3', window.web3);
+
+    return true;
+  } catch (err) {
+    console.error(err);
+  }
+
   return false;
 }
 
@@ -59,11 +92,13 @@ const spawnCows = () => {
   cows.html(arr.join(''));
 }
 
-$(() => {
+(async () => {
   spawnCows();
-
-  if (!injected()) {
-    alert("Please install MetaMask to use this dApp!");
+  
+  const injected = await inject();
+  if (!injected) {
+    alert("web3 object not found");
+    return;
   }
 
   web3.eth.requestAccounts().then((accounts) => {
@@ -200,7 +235,7 @@ $(() => {
     });
   }
   
-});
+})();
 
 
 },{"superagent":339,"web3":413}],2:[function(require,module,exports){
