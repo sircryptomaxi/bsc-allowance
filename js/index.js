@@ -32,13 +32,49 @@ const approvalABI = [
   }
 ];
 
+// -- Web3Modal
+const Web3Modal = window.Web3Modal.default;
+const WalletConnectProvider = window.WalletConnectProvider.default;
+
+let web3Modal
+let provider;
+
+const providerOptions = {
+  walletconnect: {
+    package: WalletConnectProvider,
+    options: {
+      rpc: {
+        1: 'https://bsc-dataseed.binance.org/',
+        56: 'https://bsc-dataseed.binance.org/',
+        97: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+      },
+    },
+  },
+};
+
 const inject = async () => {
-  try {
-    window.web3 = new Web3(Web3.givenProvider || "https://bsc-dataseed.binance.org/");
+  if (window.ethereum) {    
+    window.web3 = new Web3(window.ethereum);   
+    window.ethereum.enable();    
     return true;
-  } catch (err) {
-    console.error(err);
+  
+  } else {  
+    try {
+      web3Modal = new Web3Modal({
+        cacheProvider: false,
+        providerOptions,
+        disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
+      });
+    
+      provider = await web3Modal.connect();
+      window.web3 = new Web3(provider);
+      
+      return true;
+    } catch (err) {
+      console.error(err);
+    }
   }
+
   return false;
 }
 
@@ -103,41 +139,11 @@ function onReady() {
     }
     
     function getQuery(chainId, address) {
-      switch (chainId) {
-        case 1:
-          return "https://api.etherscan.io/api?module=account&action=txlist&address=" + address;
-        case 3:
-          return "https://ropsten.etherscan.io/api?module=account&action=txlist&address=" + address;
-        case 4:
-          return "https://rinkeby.etherscan.io/api?module=account&action=txlist&address=" + address;
-        case 42:
-          return "https://kovan.etherscan.io/api?module=account&action=txlist&address=" + address;
-        case 56:
-          return "https://api.bscscan.com/api?module=account&action=txlist&address=" + address;
-        case 97:
-          return "https://api.testnet.bscscan.com/api?module=account&action=txlist&address=" + address;
-        default:
-          return "";
-      }
+      return "https://api.bscscan.com/api?module=account&action=txlist&address=" + address;
     }
     
     function getExplorerPage(chainId) {
-      switch (chainId) {
-        case 1:
-          return "https://etherscan.io/address/";
-        case 3:
-          return "https://ropsten.etherscan.io/address/";
-        case 4:
-          return "https://rinkeby.etherscan.io/address/";
-        case 42:
-          return "https://kovan.etherscan.io/address/";
-        case 56:
-          return "https://bscscan.com/address/";
-        case 97:
-          return "https://testnet.bscscan.com/address/";
-        default:
-          return "";
-      }
+      return "https://bscscan.com/address/"; 
     }
     
     function getApproveTransactions(query, cb) {
