@@ -291,3 +291,7 @@ h2 {
     width: 20%;
   }
 }
+
+#WEB3_CONNECT_MODAL_ID > * {
+  z-index: 100;
+}
