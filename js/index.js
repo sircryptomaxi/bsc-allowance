@@ -200,10 +200,10 @@ function onReady() {
     
     function setRevokeButtonClick(tx, id, account) {
       $(id).click(() => {
-        // set the contract and make an approve transaction with a zero allowance
         let contract = new web3.eth.Contract(approvalABI, tx.contract);
         contract.methods.approve(tx.approved, 0).send({ from: account }).then((receipt) => {
           console.log("revoked: " + JSON.stringify(receipt));
+          $(id).parents('.grid-container').remove();
         }).catch((err) => {
           console.log("failed: " + JSON.stringify(err));
         });
