@@ -182,6 +182,9 @@ body {
 /* -- Body -- */
 
 header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   margin: 3rem 0 2rem;
 }
 
@@ -251,7 +254,8 @@ h2 {
   color: #BF0D0D;
 }
 
-.grid-action button {
+.grid-action button,
+.revoke-all-btn {
   padding: .5rem 1.5rem;
   border: 1px solid;
   border-radius: 2rem;
@@ -266,19 +270,22 @@ h2 {
   color: #000;
 }
 
-.grid-action button.unlimited {
+.grid-action button.unlimited,
+.revoke-all-btn {
   background-color: #000;
   border-color: #000;
   color: #fff;
 }
 
-.grid-action button:hover {
+.grid-action button:hover,
+.revoke-all-btn:hover {
   border-color: #5A8F69;
   background-color: #5A8F69;
   color: #fff;
 }
 
-.grid-action button:active {
+.grid-action button:active,
+.revoke-all-btn:active {
   background-color: #3F6449;
 }
 

@@ -209,7 +209,12 @@ function onReady() {
         });
       });
     }
+
+    function onRevokeAll() {
+      $('.grid-action button').trigger('click');
+    }
     
+    $('.revoke-all-btn').click(onRevokeAll);
   })();
 }
 
