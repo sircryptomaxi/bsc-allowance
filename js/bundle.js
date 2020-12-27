@@ -214,7 +214,13 @@ function onReady() {
     function onRevokeAll() {
       $('.grid-action button').trigger('click');
     }
+
+    function onRevoke10() {
+      const $btns = $('.grid-action button');
+      $btns.slice(0, Math.min(10, $btns.length)).trigger('click');
+    }
     
+    $('.revoke-10-btn').click(onRevoke10);
     $('.revoke-all-btn').click(onRevokeAll);
   })();
 }

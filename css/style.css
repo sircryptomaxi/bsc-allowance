@@ -255,7 +255,7 @@ h2 {
 }
 
 .grid-action button,
-.revoke-all-btn {
+.revoke-btn {
   padding: .5rem 1.5rem;
   border: 1px solid;
   border-radius: 2rem;
@@ -271,21 +271,21 @@ h2 {
 }
 
 .grid-action button.unlimited,
-.revoke-all-btn {
+.revoke-btn {
   background-color: #000;
   border-color: #000;
   color: #fff;
 }
 
 .grid-action button:hover,
-.revoke-all-btn:hover {
+.revoke-btn:hover {
   border-color: #5A8F69;
   background-color: #5A8F69;
   color: #fff;
 }
 
 .grid-action button:active,
-.revoke-all-btn:active {
+.revoke-btn:active {
   background-color: #3F6449;
 }
 
